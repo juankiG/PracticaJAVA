@@ -35,7 +35,7 @@ public class MysqlEquipo implements DaoEquipo{
 	}
 
 	@Override
-	public void modificar(Integer t) {
+	public void modificar(Equipo objeto) {
 		try (PreparedStatement ps= con.prepareStatement(modificar);){
 			ps.executeUpdate();
 			
