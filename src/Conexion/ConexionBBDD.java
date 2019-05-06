@@ -31,9 +31,9 @@ conexion= DriverManager.getConnection(this.url+this.bd, this.user, this.password
 //state=con.createStatement();
 System.out.println("conexion establecida");
 }
-public  Connection getConexion(String url,String user, String password) throws ClassNotFoundException, SQLException {
+public  Connection getConexion() throws ClassNotFoundException, SQLException {
 	if(this.conexion==null) {
-	new ConexionBBDD( url,user,  password);
+	new ConexionBBDD();
 		
 	}
 	return conexion;
