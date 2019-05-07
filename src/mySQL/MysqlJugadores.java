@@ -19,17 +19,17 @@ public class MysqlJugadores implements DaoJugador{
 	private String buscarTodos="select * from jugador";
 	private String buscarEquipo="select * from jugador where id=?";
 	Connection con;
-	ConexionBBDD bbdd;
+	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlJugadores() throws ClassNotFoundException, SQLException {
 	con=bbdd.getConexion();
 }
 	@Override
 	public void insertar(Jugadores objeto) {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
-			ps.setInt(1, objeto.getId());
-			ps.setString(2, objeto.getNombre());
-			ps.setInt(3, objeto.getDorsal());
-			ps.setInt(4, objeto.getIdEquipo());
+			
+			ps.setString(1, objeto.getNombre());
+			ps.setInt(2, objeto.getDorsal());
+			ps.setInt(3, objeto.getIdEquipo());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {

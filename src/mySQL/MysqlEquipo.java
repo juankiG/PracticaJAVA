@@ -18,7 +18,7 @@ public class MysqlEquipo implements DaoEquipo{
 	private String buscarTodos="select * from equipo";
 	private String buscarEquipo="select * from equipo where id=?";
 	Connection con;
-	ConexionBBDD bbdd;
+	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlEquipo() throws ClassNotFoundException, SQLException {
 	con=bbdd.getConexion();
 }

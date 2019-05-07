@@ -19,7 +19,7 @@ public class MysqlLiga implements DaoLiga {
 	private String buscarTodos="select * from liga";
 	private String buscarEquipo="select * from liga where id=?";
 	Connection con;
-	ConexionBBDD bbdd;
+	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlLiga() throws ClassNotFoundException, SQLException {
 	con=bbdd.getConexion();
 }

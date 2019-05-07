@@ -4,7 +4,7 @@ public class Equipo {
 private Integer id;
 private String nombre;
 
-public Equipo(String nombre, Integer idJugador) {
+public Equipo(String nombre) {
 	this.nombre = nombre;
 
 }
