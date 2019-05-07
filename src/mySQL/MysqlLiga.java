@@ -13,7 +13,7 @@ import Modelos.Jugadores;
 import Modelos.Liga;
 
 public class MysqlLiga implements DaoLiga {
-	private String insertar="insert into liga(id, nombre,idequipo) values(?,?,?);";
+	private String insertar="insert into liga( nombre,idequipo) values(?,?);";
 	private String modificar="update liga set nombre=? where id=?";
 	private String eliminar= "delete from liga where id=?;";
 	private String buscarTodos="select * from liga";
@@ -26,9 +26,9 @@ public class MysqlLiga implements DaoLiga {
 	@Override
 	public void insertar(Liga objeto) {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
-			ps.setInt(1, objeto.getId());
-			ps.setString(2, objeto.getNombre());
-			ps.setInt(3, objeto.getIdEquipo());
+			
+			ps.setString(1, objeto.getNombre());
+			ps.setInt(2, objeto.getIdEquipo());
 			
 			ps.executeUpdate();
 			

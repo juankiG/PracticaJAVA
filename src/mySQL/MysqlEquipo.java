@@ -25,6 +25,7 @@ public class MysqlEquipo implements DaoEquipo{
 	@Override
 	public void insertar(Equipo objeto) {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
+			ps.setString(1, objeto.getNombre());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
