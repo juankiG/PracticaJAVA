@@ -3,10 +3,20 @@ package Modelos;
 public class Equipo {
 private Integer id;
 private String nombre;
-
-public Equipo(String nombre) {
+private int idLiga;
+public Equipo() {
+	this.nombre="";
+	this.idLiga=0;
+}
+public Equipo(String nombre, int idLiga) {
 	this.nombre = nombre;
-
+	this.idLiga=idLiga;
+}
+public int getIdLiga() {
+	return idLiga;
+}
+public void setIdLiga(int idLiga) {
+	this.idLiga = idLiga;
 }
 public Integer getId() {
 	return id;

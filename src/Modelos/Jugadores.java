@@ -5,8 +5,12 @@ private Integer id;
 private String  nombre;
 private Integer dorsal;
 private Integer idEquipo;
+public Jugadores() {
+	this.nombre="";
+	this.dorsal=0;
+	this.idEquipo=0;
+}
 public Jugadores(String nombre, Integer dorsal,Integer idEquipo) {
-	super();
 	this.nombre = nombre;
 	this.dorsal = dorsal;
 	this.idEquipo=idEquipo;

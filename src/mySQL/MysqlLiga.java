@@ -13,11 +13,11 @@ import Modelos.Jugadores;
 import Modelos.Liga;
 
 public class MysqlLiga implements DaoLiga {
-	private String insertar="insert into liga( nombre,idequipo) values(?,?);";
-	private String modificar="update liga set nombre=? where id=?";
-	private String eliminar= "delete from liga where id=?;";
+	private String insertar="insert into liga( nombre) values(?);";
+	private String modificar="update liga set nombre=? where idLiga=?";
+	private String eliminar= "delete from liga where idLiga=?;";
 	private String buscarTodos="select * from liga";
-	private String buscarEquipo="select * from liga where id=?";
+	private String buscarEquipo="select * from liga where idLiga=?";
 	Connection con;
 	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlLiga() throws ClassNotFoundException, SQLException {
@@ -26,10 +26,7 @@ public class MysqlLiga implements DaoLiga {
 	@Override
 	public void insertar(Liga objeto) {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
-			
 			ps.setString(1, objeto.getNombre());
-			ps.setInt(2, objeto.getIdEquipo());
-			
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -43,7 +40,7 @@ public class MysqlLiga implements DaoLiga {
 			
 			ps.setString(1, objeto.getNombre());
 			
-			ps.setInt(2, objeto.getId());
+			
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -65,9 +62,10 @@ public class MysqlLiga implements DaoLiga {
 private Liga encontrado(ResultSet rset) throws SQLException {
 	Liga equi=null;
 	if(rset.next()) {
-		equi.setId(rset.getInt("id"));
+		equi= new Liga();
+		equi.setId(rset.getInt("idLiga"));
 		equi.setNombre(rset.getString("nombre"));
-		equi.setIdEquipo(rset.getInt("idequipo"));
+		
 	}
 	return equi;
 }
@@ -81,9 +79,10 @@ private Liga encontrado(ResultSet rset) throws SQLException {
 			 ps= con.prepareStatement(buscarTodos);
 			rset=ps.executeQuery();
 			while(rset.next()) {
-				jugado.setId(rset.getInt("id"));
+				jugado=new Liga();
+				jugado.setId(rset.getInt("idliga"));
 				jugado.setNombre(rset.getString("nombre"));
-				jugado.setIdEquipo(rset.getInt("idequipo"));
+		
 				equipos.add(jugado);
 			}
 			
@@ -95,13 +94,24 @@ private Liga encontrado(ResultSet rset) throws SQLException {
 
 	@Override
 	public Liga buscar(Integer id) {
-		Liga equi=null;
-		try(PreparedStatement ps= con.prepareStatement(buscarEquipo);ResultSet rset =ps.executeQuery()) {
-			equi=encontrado(rset);
-		} catch (Exception e) {
+		Liga jugado=null;
+		PreparedStatement ps= null;
+		ResultSet rset= null;
+		try{
+			 ps= con.prepareStatement(buscarEquipo);
+			 ps.setInt(1, id);
+			rset=ps.executeQuery();
+			if(rset.next()) {
+
+				jugado= new Liga();
+				jugado.setId(rset.getInt("idLiga"));
+				jugado.setNombre(rset.getString("nombre"));
+				
+			}
+			} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return equi;
+		return jugado;
 	}
 
 

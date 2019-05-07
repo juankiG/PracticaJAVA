@@ -13,11 +13,11 @@ import Modelos.Equipo;
 import Modelos.Jugadores;
 
 public class MysqlJugadores implements DaoJugador{
-	private String insertar="insert into jugador( nombre,dorsal,idequipo) values(?,?,?);";
-	private String modificar="update jugador set nombre=?,dorsal=?,idEquipo=? where id=?";
-	private String eliminar= "delete from jugador where id=?;";
+	private String insertar="insert into jugador( nombreJugador,dorsal,idequipo) values(?,?,?);";
+	private String modificar="update jugador set nombreJugador=?,dorsal=?,idEquipo=? where id=?";
+	private String eliminar= "delete from jugador where idJugador=?;";
 	private String buscarTodos="select * from jugador";
-	private String buscarEquipo="select * from jugador where id=?";
+	private String buscarEquipo="select * from jugador where idJugador=?";
 	Connection con;
 	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlJugadores() throws ClassNotFoundException, SQLException {
@@ -64,12 +64,7 @@ public class MysqlJugadores implements DaoJugador{
 	
 private Jugadores encontrado(ResultSet rset) throws SQLException {
 	Jugadores equi=null;
-	if(rset.next()) {
-		equi.setId(rset.getInt("id"));
-		equi.setNombre(rset.getString("nombre"));
-		equi.setDorsal(rset.getInt("dosal"));
-		equi.setIdEquipo(rset.getInt("idEquipo"));
-	}
+	
 	return equi;
 }
 	@Override
@@ -82,8 +77,9 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 			 ps= con.prepareStatement(buscarTodos);
 			rset=ps.executeQuery();
 			while(rset.next()) {
-				jugado.setId(rset.getInt("id"));
-				jugado.setNombre(rset.getString("nombre"));
+				jugado= new Jugadores();
+				jugado.setId(rset.getInt("idJugador"));
+				jugado.setNombre(rset.getString("nombreJugador"));
 				jugado.setDorsal(rset.getInt("dorsal"));
 				jugado.setIdEquipo(rset.getInt("idEquipo"));
 				equipos.add(jugado);
@@ -98,8 +94,20 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 	@Override
 	public Jugadores buscar(Integer id) {
 		Jugadores equi=null;
-		try(PreparedStatement ps= con.prepareStatement(buscarEquipo);ResultSet rset =ps.executeQuery()) {
-			equi=encontrado(rset);
+		PreparedStatement ps=null;
+		ResultSet rset= null;
+		try {
+			ps=con.prepareStatement(buscarEquipo);
+			ps.setInt(1, id);
+			 rset =ps.executeQuery();
+			
+			 if(rset.next()) {
+					equi=new Jugadores();
+					equi.setId(rset.getInt("idJugador"));
+					equi.setNombre(rset.getString("nombreJugador"));
+					equi.setDorsal(rset.getInt("dosal"));
+					equi.setIdEquipo(rset.getInt("idEquipo"));
+				}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

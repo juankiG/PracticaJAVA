@@ -10,13 +10,14 @@ import java.util.List;
 import Conexion.ConexionBBDD;
 import Dao.DaoEquipo;
 import Modelos.Equipo;
+import Modelos.Jugadores;
 
 public class MysqlEquipo implements DaoEquipo{
-	private String insertar="insert into equipo(nombre) values(?);";
-	private String modificar="update equipo set nombre=? where id=?";
-	private String eliminar= "delete from equipo where id=?;";
+	private String insertar="insert into equipo(nombre,idLiga) values(?,?);";
+	private String modificar="update equipo set nombre=?,idLiga=? where idequipo=?";
+	private String eliminar= "delete from equipo where idEquipo=?;";
 	private String buscarTodos="select * from equipo";
-	private String buscarEquipo="select * from equipo where id=?";
+	private String buscarEquipo="select * from equipo where idEquipo=?";
 	Connection con;
 	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlEquipo() throws ClassNotFoundException, SQLException {
@@ -26,6 +27,7 @@ public class MysqlEquipo implements DaoEquipo{
 	public void insertar(Equipo objeto) {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
 			ps.setString(1, objeto.getNombre());
+			ps.setInt(2, objeto.getIdLiga());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -38,6 +40,8 @@ public class MysqlEquipo implements DaoEquipo{
 	@Override
 	public void modificar(Equipo objeto) {
 		try (PreparedStatement ps= con.prepareStatement(modificar);){
+			ps.setString(1, objeto.getNombre());
+			ps.setInt(2, objeto.getIdLiga());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -48,6 +52,7 @@ public class MysqlEquipo implements DaoEquipo{
 	@Override
 	public void eliminar(Integer t) {
 		try (PreparedStatement ps= con.prepareStatement(eliminar);){
+			ps.setInt(1, t);
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -58,11 +63,7 @@ public class MysqlEquipo implements DaoEquipo{
 	
 private Equipo encontrado(ResultSet rset) throws SQLException {
 	Equipo equi=null;
-	if(rset.next()) {
-		equi.setId(rset.getInt("id"));
-		equi.setNombre(rset.getString("nombre"));
 	
-	}
 	return equi;
 }
 	@Override
@@ -72,11 +73,14 @@ private Equipo encontrado(ResultSet rset) throws SQLException {
 		PreparedStatement ps= null;
 		ResultSet rset= null;
 		try{
+			
 			 ps= con.prepareStatement(buscarTodos);
 			rset=ps.executeQuery();
 			while(rset.next()) {
-				equi.setId(rset.getInt("id"));
+				equi=new Equipo();
+				equi.setId(rset.getInt("idEquipo"));
 				equi.setNombre(rset.getString("nombre"));
+				equi.setIdLiga(rset.getInt("idLiga"));
 				
 				equipos.add(equi);
 			}
@@ -89,9 +93,22 @@ private Equipo encontrado(ResultSet rset) throws SQLException {
 
 	@Override
 	public Equipo buscar(Integer id) {
+		
+		PreparedStatement ps=null;
+		ResultSet rset= null;
 		Equipo equi=null;
-		try(PreparedStatement ps= con.prepareStatement(buscarEquipo);ResultSet rset =ps.executeQuery()) {
-			equi=encontrado(rset);
+		try {
+			ps=con.prepareStatement(buscarEquipo);
+			ps.setInt(1, id);
+			 rset =ps.executeQuery();
+			
+			if(rset.next()) {
+				equi=new Equipo();
+				equi.setId(rset.getInt("idEquipo"));
+				equi.setNombre(rset.getString("nombre"));
+				equi.setIdLiga(rset.getInt("idLiga"));
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
