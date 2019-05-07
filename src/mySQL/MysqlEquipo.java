@@ -12,8 +12,8 @@ import Dao.DaoEquipo;
 import Modelos.Equipo;
 
 public class MysqlEquipo implements DaoEquipo{
-	private String insertar="insert into equipo(nombre, ciudad,idJugador) values(?,?,?);";
-	private String modificar="update equipo set nombre=?,ciudad=? where id=?";
+	private String insertar="insert into equipo(nombre) values(?);";
+	private String modificar="update equipo set nombre=? where id=?";
 	private String eliminar= "delete from equipo where id=?;";
 	private String buscarTodos="select * from equipo";
 	private String buscarEquipo="select * from equipo where id=?";
@@ -60,7 +60,7 @@ private Equipo encontrado(ResultSet rset) throws SQLException {
 	if(rset.next()) {
 		equi.setId(rset.getInt("id"));
 		equi.setNombre(rset.getString("nombre"));
-		equi.setIdJugador(rset.getInt("idJugador"));
+	
 	}
 	return equi;
 }
@@ -76,7 +76,7 @@ private Equipo encontrado(ResultSet rset) throws SQLException {
 			while(rset.next()) {
 				equi.setId(rset.getInt("id"));
 				equi.setNombre(rset.getString("nombre"));
-				equi.setIdJugador(rset.getInt("idJugador"));
+				
 				equipos.add(equi);
 			}
 			

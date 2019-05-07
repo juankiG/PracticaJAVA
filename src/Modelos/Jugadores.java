@@ -4,10 +4,18 @@ public class Jugadores {
 private Integer id;
 private String  nombre;
 private Integer dorsal;
-public Jugadores(String nombre, Integer dorsal) {
+private Integer idEquipo;
+public Jugadores(String nombre, Integer dorsal,Integer idEquipo) {
 	super();
 	this.nombre = nombre;
 	this.dorsal = dorsal;
+	this.idEquipo=idEquipo;
+}
+public Integer getIdEquipo() {
+	return idEquipo;
+}
+public void setIdEquipo(Integer idEquipo) {
+	this.idEquipo = idEquipo;
 }
 public Integer getId() {
 	return id;

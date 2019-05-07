@@ -13,8 +13,8 @@ import Modelos.Equipo;
 import Modelos.Jugadores;
 
 public class MysqlJugadores implements DaoJugador{
-	private String insertar="insert into jugador(id, nombre,dorsal) values(?,?,?);";
-	private String modificar="update jugador set nombre=?,dorsal=? where id=?";
+	private String insertar="insert into jugador( nombre,dorsal,idequipo) values(?,?,?);";
+	private String modificar="update jugador set nombre=?,dorsal=?,idEquipo=? where id=?";
 	private String eliminar= "delete from jugador where id=?;";
 	private String buscarTodos="select * from jugador";
 	private String buscarEquipo="select * from jugador where id=?";
@@ -29,7 +29,7 @@ public class MysqlJugadores implements DaoJugador{
 			ps.setInt(1, objeto.getId());
 			ps.setString(2, objeto.getNombre());
 			ps.setInt(3, objeto.getDorsal());
-			
+			ps.setInt(4, objeto.getIdEquipo());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class MysqlJugadores implements DaoJugador{
 			
 			ps.setString(1, objeto.getNombre());
 			ps.setInt(2, objeto.getDorsal());
-			ps.setInt(3, objeto.getId());
+			ps.setInt(3, objeto.getIdEquipo());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -68,6 +68,7 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 		equi.setId(rset.getInt("id"));
 		equi.setNombre(rset.getString("nombre"));
 		equi.setDorsal(rset.getInt("dosal"));
+		equi.setIdEquipo(rset.getInt("idEquipo"));
 	}
 	return equi;
 }
@@ -84,6 +85,7 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 				jugado.setId(rset.getInt("id"));
 				jugado.setNombre(rset.getString("nombre"));
 				jugado.setDorsal(rset.getInt("dorsal"));
+				jugado.setIdEquipo(rset.getInt("idEquipo"));
 				equipos.add(jugado);
 			}
 			
