@@ -6,5 +6,5 @@ void insertar(k objeto);
 void modificar(k objeto);
 void eliminar(t t);
 List<k> BuscarTodos();
-k buscar();
+k buscar(t id);
 }

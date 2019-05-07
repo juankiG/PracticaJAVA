@@ -12,12 +12,12 @@ public class test {
 		Equipo e= new Equipo("getafe");
 		Jugadores j= new Jugadores("pep", 1, 1);
 		Liga l= new Liga("españonla", 1);
-		//MysqlJugadores my= new MysqlJugadores();
-		//my.insertar(j);
+		MysqlJugadores my= new MysqlJugadores();
+		System.out.println(my.buscar(1)  );
 		MysqlLiga ml= new MysqlLiga();
-		ml.insertar(l);
-		//MysqlEquipo me= new MysqlEquipo();
-		//me.insertar(e);
+		System.out.println(ml.buscar(1));
+		MysqlEquipo me= new MysqlEquipo();
+		System.out.println(me.buscar(1));
 	}
 
 }

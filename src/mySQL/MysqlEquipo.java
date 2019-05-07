@@ -88,7 +88,7 @@ private Equipo encontrado(ResultSet rset) throws SQLException {
 	}
 
 	@Override
-	public Equipo buscar() {
+	public Equipo buscar(Integer id) {
 		Equipo equi=null;
 		try(PreparedStatement ps= con.prepareStatement(buscarEquipo);ResultSet rset =ps.executeQuery()) {
 			equi=encontrado(rset);

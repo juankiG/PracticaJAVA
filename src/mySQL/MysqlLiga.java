@@ -94,7 +94,7 @@ private Liga encontrado(ResultSet rset) throws SQLException {
 	}
 
 	@Override
-	public Liga buscar() {
+	public Liga buscar(Integer id) {
 		Liga equi=null;
 		try(PreparedStatement ps= con.prepareStatement(buscarEquipo);ResultSet rset =ps.executeQuery()) {
 			equi=encontrado(rset);
