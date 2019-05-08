@@ -68,17 +68,17 @@ public class DetalleAlumnoPanel extends JPanel {
 		add(lblNewLabel_1);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(110, 10, 163, 22);
+		textFieldNombre.setBounds(132, 10, 116, 22);
 		add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
 		textFieldDorsal = new JTextField();
-		textFieldDorsal.setBounds(110, 53, 80, 22);
+		textFieldDorsal.setBounds(132, 53, 116, 22);
 		add(textFieldDorsal);
 		textFieldDorsal.setColumns(10);
 		
 		textFieldiDEquipo = new JTextField();
-		textFieldiDEquipo.setBounds(110, 92, 116, 22);
+		textFieldiDEquipo.setBounds(132, 92, 116, 22);
 		add(textFieldiDEquipo);
 		textFieldiDEquipo.setColumns(10);
 

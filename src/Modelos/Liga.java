@@ -1,7 +1,7 @@
 package Modelos;
 
 public class Liga {
-private Integer id;
+private Integer id=null;
 private String nombre;
 
 public Liga(String nombre) {
@@ -11,7 +11,6 @@ public Liga(String nombre) {
 }
 public Liga() {
 	
-	this.nombre = "";
 	
 }
 @Override

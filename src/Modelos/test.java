@@ -17,7 +17,7 @@ public class test {
 		MysqlManager mg= new MysqlManager();
 		//mg.getBBDD().CrearBBDD("bd_equipos");
 		
-		System.out.println(mg.getJugador().buscar(3));
+		mg.getJugador().modificar(j);
 }
 
 }

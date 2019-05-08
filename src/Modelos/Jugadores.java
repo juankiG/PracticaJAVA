@@ -1,14 +1,12 @@
 package Modelos;
 
 public class Jugadores {
-private Integer id;
+private Integer id=null;
 private String  nombre;
 private Integer dorsal;
 private Integer idEquipo;
 public Jugadores() {
-	this.nombre="";
-	this.dorsal=0;
-	this.idEquipo=0;
+	
 }
 public Jugadores(String nombre, Integer dorsal,Integer idEquipo) {
 	this.nombre = nombre;

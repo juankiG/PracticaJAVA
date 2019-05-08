@@ -25,6 +25,12 @@ public class ListaJugadores extends JFrame {
 	private DaoManager manager;
 	private JugadoresTableModel modelo;
 	private JTable tabla;
+	private JButton btnEditar;
+	private JToolBar toolBar;
+	private JButton btnAñadir;
+	private JButton btnBorrar;
+	private JButton btnGuardar;
+	private JButton btnCancelar;
 	public DetalleAlumnoPanel dj= new DetalleAlumnoPanel();
 	public ListaJugadores(DaoManager manager) throws ClassNotFoundException, SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,28 +46,30 @@ public class ListaJugadores extends JFrame {
 		this.modelo.updateModel();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnAñadir = new JButton("anadir");
-		
+		btnAñadir = new JButton("anadir");
+		btnAñadir.addActionListener(new BtnAñadirActionListener());
 		toolBar.add(btnAñadir);
 		
-		JButton btnEditar = new JButton("editar");
-		
-		
+		 btnEditar = new JButton("editar");
+		 btnEditar.addActionListener(new BtnEditarActionListener());
 		btnEditar.setEnabled(false);
 		toolBar.add(btnEditar);
 		
-		JButton btnBorrar = new JButton("borrar");
+		 btnBorrar = new JButton("borrar");
+		 btnBorrar.addActionListener(new BtnBorrarActionListener());
 		btnBorrar.setEnabled(false);
 		toolBar.add(btnBorrar);
 		
-		JButton btnGuardar = new JButton("guardar");
+		 btnGuardar = new JButton("guardar");
+		 btnGuardar.addActionListener(new BtnGuardarActionListener());
 		btnGuardar.setEnabled(false);
 		toolBar.add(btnGuardar);
 		
-		JButton btnCancelar = new JButton("cancelar");
+		btnCancelar = new JButton("cancelar");
+		btnCancelar.addActionListener(new BtnCancelarActionListener());
 		btnCancelar.setEnabled(false);
 		toolBar.add(btnCancelar);
 		
@@ -72,56 +80,102 @@ public class ListaJugadores extends JFrame {
 		tabla = new JTable();
 		getContentPane().add(tabla, BorderLayout.WEST);
 		tabla.setModel(modelo);
+		
 		this.tabla.getSelectionModel().addListSelectionListener(e ->{
 			boolean seleccionvalida= (tabla.getSelectedRow()!=-1);
 			btnEditar.setEnabled(seleccionvalida);;
 			btnBorrar.setEnabled(seleccionvalida);
 		});
+		
 		getContentPane().add(dj, BorderLayout.CENTER);
 		dj.setLayout(new BorderLayout(0, 0));
-		
-		//ACTIION DEL EDITAR
-				btnEditar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						try {
-							Jugadores jugador = getJugadorSeleccionado();
-							dj.setJugador(jugador);
-							dj.setEditable(true);
-							dj.cargarDatos();
-							btnGuardar.setEnabled(true);
-							btnCancelar.setEnabled(true);
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-								
-					}
-				});
-				//action de añadir
-				btnAñadir.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					dj.setJugador(null);
-					dj.cargarDatos();
-					dj.setEditable(true);
-					btnGuardar.setEnabled(true);
-					btnCancelar.setEnabled(true);
-					}
-				});
-				//action de cancelar
+					
 				
-				btnCancelar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						dj.setJugador(null);
-						dj.setEditable(false);
-						dj.cargarDatos();
-						tabla.clearSelection();
-						btnGuardar.setEnabled(false);
-						btnCancelar.setEnabled(false);
-					}
-				});
+	}
+	
+	private class BtnAñadirActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			dj.setJugador(null);
+			dj.cargarDatos();
+			dj.setEditable(true);
+			btnGuardar.setEnabled(true);
+			btnCancelar.setEnabled(true);
+		}
+	}
+	
+	private class BtnEditarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			try {
+				Jugadores jugador = getJugadorSeleccionado();
+				dj.setJugador(jugador);
+				dj.setEditable(true);
+				dj.cargarDatos();
+				btnGuardar.setEnabled(true);
+				btnCancelar.setEnabled(true);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	private class BtnCancelarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			dj.setJugador(null);
+			dj.setEditable(false);
+			dj.cargarDatos();
+			tabla.clearSelection();
+			btnGuardar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+		}
+	}
+	private class BtnBorrarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		
+		try {
+			Jugadores jugador= getJugadorSeleccionado();
+			manager.getJugador().eliminar(jugador.getId());
+			modelo.updateModel();
+			modelo.fireTableDataChanged();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		}
+	}
+	private class BtnGuardarActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			dj.guardarDatos();
+			Jugadores jugador =dj.getJugador();
+			try {
+				if(jugador.getId()==null) {
+				
+					
+						manager.getJugador().insertar(jugador);
+					
+				
+			}else {
+				
+					manager.getJugador().modificar(jugador);
+				
+				}
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+			
+			dj.setJugador(null);
+			dj.setEditable(false);
+			dj.cargarDatos();
+			tabla.clearSelection();
+			btnGuardar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+			modelo.updateModel();
+			modelo.fireTableDataChanged();
+			
+		}
 	}
 	private Jugadores getJugadorSeleccionado() throws ClassNotFoundException, SQLException {
 		Integer id= (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);

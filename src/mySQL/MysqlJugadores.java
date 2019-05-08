@@ -14,7 +14,7 @@ import Modelos.Jugadores;
 
 public class MysqlJugadores implements DaoJugador{
 	private String insertar="insert into jugador( nombreJugador,dorsal,idequipo) values(?,?,?);";
-	private String modificar="update jugador set nombreJugador=?,dorsal=?,idEquipo=? where id=?";
+	private String modificar="update jugador set nombreJugador=?,dorsal=?,idEquipo=? where idJugador=?";
 	private String eliminar= "delete from jugador where idJugador=?;";
 	private String buscarTodos="select * from jugador";
 	private String buscarEquipo="select * from jugador where idJugador=?";
@@ -44,6 +44,7 @@ public class MysqlJugadores implements DaoJugador{
 			ps.setString(1, objeto.getNombre());
 			ps.setInt(2, objeto.getDorsal());
 			ps.setInt(3, objeto.getIdEquipo());
+			ps.setInt(4, objeto.getId());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
