@@ -14,7 +14,7 @@ public class MysqlBBDD {
 		bbdd= new ConexionBBDD();
 		con= bbdd.getConexion2();
 	}
-	public void CrearBBDD2(String nombre) throws SQLException {
+	public void CrearBBDD(String nombre) throws SQLException {
 		EliminarBBDD(nombre);
 		String sql="CREATE DATABASE "+nombre;
 		String sqluse="use "+nombre;
@@ -52,6 +52,8 @@ public class MysqlBBDD {
 	}
 	public void establecerRelaciones() throws SQLException {
 		Statement st= con.createStatement();
+		Statement st1 = con.createStatement();
+		st1.executeUpdate("ALTER TABLE EQUIPO ADD FOREIGN KEY (idLiga) REFERENCES LIGA (idLiga) ON DELETE  CASCADE ON UPDATE  CASCADE;");
 		st.executeUpdate("ALTER TABLE JUGADOR ADD FOREIGN KEY (idEquipo) REFERENCES EQUIPO (idEQuipo) ON DELETE  CASCADE ON UPDATE  CASCADE;");
 	}
 }
