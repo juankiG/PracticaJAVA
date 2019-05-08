@@ -39,12 +39,13 @@ public class ListaJugadores extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		dj.setCombo(new ComboboxEquipo(manager.getEquipo()));
 		this.manager= manager;
 		//con esto se crea la tabla
 		this.modelo=new JugadoresTableModel(manager.getJugador());
 		this.modelo.updateModel();
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		
 		
 		toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
@@ -80,6 +81,7 @@ public class ListaJugadores extends JFrame {
 		tabla = new JTable();
 		getContentPane().add(tabla, BorderLayout.WEST);
 		tabla.setModel(modelo);
+		
 		
 		this.tabla.getSelectionModel().addListSelectionListener(e ->{
 			boolean seleccionvalida= (tabla.getSelectedRow()!=-1);
