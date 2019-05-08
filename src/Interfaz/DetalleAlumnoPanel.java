@@ -32,13 +32,13 @@ public class DetalleAlumnoPanel extends JPanel {
 	}
 	public void cargarDatos() {
 		if(jugador!=null) {
-			textFieldDorsal.setText(Integer.toString(jugador.getDorsal()));
+			textFieldDorsal.setText(String.valueOf(jugador.getDorsal()));
 			textFieldNombre.setText(jugador.getNombre());
-			textFieldiDEquipo.setText(Integer.toString(jugador.getIdEquipo()));
+			textFieldiDEquipo.setText(String.valueOf(jugador.getIdEquipo()));
 		}else {
-			textFieldDorsal.setText(Integer.toString(jugador.getDorsal()));
-			textFieldNombre.setText(jugador.getNombre());
-			textFieldiDEquipo.setText(Integer.toString(jugador.getIdEquipo()));
+			textFieldDorsal.setText("");
+			textFieldNombre.setText("");
+			textFieldiDEquipo.setText("");
 		}
 	}
 	public void guardarDatos() {

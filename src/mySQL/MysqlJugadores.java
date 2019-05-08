@@ -105,7 +105,7 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 					equi=new Jugadores();
 					equi.setId(rset.getInt("idJugador"));
 					equi.setNombre(rset.getString("nombreJugador"));
-					equi.setDorsal(rset.getInt("dosal"));
+					equi.setDorsal(rset.getInt("dorsal"));
 					equi.setIdEquipo(rset.getInt("idEquipo"));
 				}
 		} catch (Exception e) {

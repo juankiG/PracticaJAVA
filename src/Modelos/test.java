@@ -16,9 +16,8 @@ public class test {
 		Liga liga= new Liga("española");
 		MysqlManager mg= new MysqlManager();
 		//mg.getBBDD().CrearBBDD("bd_equipos");
-		mg.getliga().insertar(liga);
-		mg.getEquipo().insertar(equipo);
-		mg.getJugador().insertar(j);
+		
+		System.out.println(mg.getJugador().buscar(3));
 }
 
 }
