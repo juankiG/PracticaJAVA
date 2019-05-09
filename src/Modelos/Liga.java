@@ -15,7 +15,7 @@ public Liga() {
 }
 @Override
 public String toString() {
-	return "Liga [id=" + id + ", nombre=" + nombre +"]";
+	return getId()+" "+getNombre();
 }
 
 public Integer getId() {

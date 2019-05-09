@@ -18,7 +18,7 @@ public class DetalleJugadorPanel extends JPanel {
 	private Jugadores jugador;
 	private boolean editable;
 	private ComboboxEquipo combo;
-	private JComboBox<EquipoComboVista> comboBoxEquipo;
+	private JComboBox<Equipo> comboBoxEquipo;
 	
 	public Jugadores getJugador() {
 		return jugador;
@@ -63,9 +63,8 @@ public class DetalleJugadorPanel extends JPanel {
 		jugador.setNombre(textFieldNombre.getText());
 		jugador.setDorsal(Integer.parseInt(textFieldDorsal.getText()));
 		
-		EquipoComboVista ecv= (EquipoComboVista) comboBoxEquipo.getSelectedItem();
-		Equipo equipo= ecv.getEquipo();
-		jugador.setIdEquipo(equipo.getId());
+		Equipo ecv=  (Equipo) comboBoxEquipo.getSelectedItem();
+		jugador.setIdEquipo(ecv.getId());
 	}
 	/**
 	 * Create the panel.

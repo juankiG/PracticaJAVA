@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Dao.DaoManager;
+import Modelos.Equipo;
 import Modelos.Jugadores;
 import mySQL.MysqlManager;
 
@@ -32,6 +33,7 @@ public class ListaJugadores extends JFrame {
 	private JButton btnGuardar;
 	private JButton btnCancelar;
 	public DetalleJugadorPanel dj= new DetalleJugadorPanel();
+	
 	public ListaJugadores(DaoManager manager) throws ClassNotFoundException, SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 450);
@@ -151,8 +153,6 @@ public class ListaJugadores extends JFrame {
 			Jugadores jugador =dj.getJugador();
 			try {
 				if(jugador.getId()==null) {
-				
-					
 						manager.getJugador().insertar(jugador);
 					
 				

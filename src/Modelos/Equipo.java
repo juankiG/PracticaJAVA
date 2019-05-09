@@ -32,7 +32,7 @@ public void setNombre(String nombre) {
 
 @Override
 public String toString() {
-	return "Equipo [id=" + id + ", nombre=" + nombre + "]";
+	return getId()+" "+getNombre();
 }
 
 }

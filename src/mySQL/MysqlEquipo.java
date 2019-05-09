@@ -42,6 +42,7 @@ public class MysqlEquipo implements DaoEquipo{
 		try (PreparedStatement ps= con.prepareStatement(modificar);){
 			ps.setString(1, objeto.getNombre());
 			ps.setInt(2, objeto.getIdLiga());
+			ps.setInt(3, objeto.getId());
 			ps.executeUpdate();
 			
 		} catch (Exception e) {
