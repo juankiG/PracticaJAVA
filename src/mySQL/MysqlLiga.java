@@ -13,7 +13,7 @@ import Modelos.Jugadores;
 import Modelos.Liga;
 
 public class MysqlLiga implements DaoLiga {
-	private String insertar="insert into liga( nombre) values(?);";
+	private String insertar="insert into liga(nombre) values(?);";
 	private String modificar="update liga set nombre=? where idLiga=?";
 	private String eliminar= "delete from liga where idLiga=?;";
 	private String buscarTodos="select * from liga";
@@ -28,7 +28,7 @@ public class MysqlLiga implements DaoLiga {
 		try (PreparedStatement ps= con.prepareStatement(insertar);){
 			ps.setString(1, objeto.getNombre());
 			ps.executeUpdate();
-			
+			System.out.println("se ha ejecutado insertar");
 		} catch (Exception e) {
 			// TODO: handle eSxception
 		}		
@@ -37,11 +37,12 @@ public class MysqlLiga implements DaoLiga {
 	@Override
 	public void modificar(Liga objeto) {
 		try (PreparedStatement ps= con.prepareStatement(modificar);){
-			
+			System.out.println(objeto.getId());
 			ps.setString(1, objeto.getNombre());
-			
-			
+			ps.setInt(2, objeto.getId());
+			System.out.println(objeto.getId());
 			ps.executeUpdate();
+			System.out.println("se ha ejecutado");
 		} catch (Exception e) {
 			// TODO: handle exception
 		}		

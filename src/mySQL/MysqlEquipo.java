@@ -62,11 +62,7 @@ public class MysqlEquipo implements DaoEquipo{
 		
 	}
 	
-private Equipo encontrado(ResultSet rset) throws SQLException {
-	Equipo equi=null;
-	
-	return equi;
-}
+
 	@Override
 	public List<Equipo> BuscarTodos() {
 		List<Equipo>equipos= new ArrayList<Equipo>();
