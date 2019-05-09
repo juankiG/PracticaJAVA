@@ -12,13 +12,13 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-public class DetalleAlumnoPanel extends JPanel {
+public class DetalleJugadorPanel extends JPanel {
 	private JTextField textFieldNombre;
 	private JTextField textFieldDorsal;
 	private Jugadores jugador;
 	private boolean editable;
 	private ComboboxEquipo combo;
-	private JComboBox<Equipo> comboBoxEquipo;
+	private JComboBox<EquipoComboVista> comboBoxEquipo;
 	
 	public Jugadores getJugador() {
 		return jugador;
@@ -48,11 +48,12 @@ public class DetalleAlumnoPanel extends JPanel {
 		if(jugador!=null) {
 			textFieldDorsal.setText(String.valueOf(jugador.getDorsal()));
 			textFieldNombre.setText(jugador.getNombre());
-			//textFieldiDEquipo.setText(String.valueOf(jugador.getIdEquipo()));
+			comboBoxEquipo.setSelectedIndex(jugador.getIdEquipo()-1);
 		}else {
 			textFieldDorsal.setText("");
 			textFieldNombre.setText("");
-			//textFieldiDEquipo.setText("");
+	
+			
 		}
 	}
 	public void guardarDatos() {
@@ -61,12 +62,15 @@ public class DetalleAlumnoPanel extends JPanel {
 		}
 		jugador.setNombre(textFieldNombre.getText());
 		jugador.setDorsal(Integer.parseInt(textFieldDorsal.getText()));
-		//jugador.setIdEquipo(Integer.parseInt(textFieldiDEquipo.getText()));
+		
+		EquipoComboVista ecv= (EquipoComboVista) comboBoxEquipo.getSelectedItem();
+		Equipo equipo= ecv.getEquipo();
+		jugador.setIdEquipo(equipo.getId());
 	}
 	/**
 	 * Create the panel.
 	 */
-	public DetalleAlumnoPanel() {
+	public DetalleJugadorPanel() {
 		combo = new ComboboxEquipo(null);
 		setLayout(null);
 		
@@ -93,11 +97,11 @@ public class DetalleAlumnoPanel extends JPanel {
 		textFieldDorsal.setColumns(10);
 		
 		comboBoxEquipo = new JComboBox();
-		comboBoxEquipo.setBounds(132, 95, 190, 19);
+		comboBoxEquipo.setBounds(132, 95, 116, 19);
 		add(comboBoxEquipo);
 
 	}
-	public DetalleAlumnoPanel(DaoEquipo equipo) {
+	public DetalleJugadorPanel(DaoEquipo equipo) {
 		combo = new ComboboxEquipo(equipo);
 		comboBoxEquipo.setModel(combo);
 		combo.update();

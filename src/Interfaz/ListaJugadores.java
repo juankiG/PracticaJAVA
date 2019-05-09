@@ -31,7 +31,7 @@ public class ListaJugadores extends JFrame {
 	private JButton btnBorrar;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
-	public DetalleAlumnoPanel dj= new DetalleAlumnoPanel();
+	public DetalleJugadorPanel dj= new DetalleJugadorPanel();
 	public ListaJugadores(DaoManager manager) throws ClassNotFoundException, SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 450);

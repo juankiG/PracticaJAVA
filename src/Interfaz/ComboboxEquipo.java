@@ -10,7 +10,7 @@ import Dao.DaoJugador;
 import Modelos.Equipo;
 import Modelos.Jugadores;
 
-public class ComboboxEquipo extends DefaultComboBoxModel<Equipo> {
+public class ComboboxEquipo extends DefaultComboBoxModel<EquipoComboVista> {
 
 	private DaoEquipo equipo;
 	private List<Equipo> equipos;
@@ -23,7 +23,7 @@ public class ComboboxEquipo extends DefaultComboBoxModel<Equipo> {
 			equipos=equipo.BuscarTodos();
 			removeAllElements();
 			for (Equipo equipo : equipos) {
-				addElement(equipo);
+				addElement(new EquipoComboVista(equipo));
 			}
 		}
 		
