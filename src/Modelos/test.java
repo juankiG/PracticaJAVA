@@ -12,13 +12,13 @@ public class test {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		Equipo equipo = new Equipo("FC", 1);
-		Jugadores j= new Jugadores("van", 9, 1);
-		Liga liga= new Liga("español");
+		Jugadores j= new Jugadores("ian", 9, 10);
+		Liga liga= new Liga("española");
 		MysqlManager mg= new MysqlManager();
-		//mg.getBBDD().CrearBBDD("bd_equipos");
+		mg.getBBDD().EliminarBBDD("bd_equipos");
 		
+
 		
-		mg.getEquipo().modificar((equipo));
 }
 
 }

@@ -32,7 +32,7 @@ conexion= DriverManager.getConnection(this.url+this.bd, this.user, this.password
 //state=con.createStatement();
 System.out.println("conexion establecida");
 }
-private ConexionBBDD(String url,String user, String password) throws ClassNotFoundException, SQLException {
+public ConexionBBDD(String url,String user, String password) throws ClassNotFoundException, SQLException {
 this.url=url;
 this.user=user;
 this.bd=bd;

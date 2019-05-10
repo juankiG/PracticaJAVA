@@ -8,14 +8,18 @@ import java.sql.Statement;
 import Conexion.ConexionBBDD;
 
 public class MysqlBBDD {
+	private static  String url="jdbc:mysql://localhost:3306/";
+	static String user="root";
+	static String password="";
 	Connection con;
 	ConexionBBDD bbdd;
 	public MysqlBBDD() throws ClassNotFoundException, SQLException {
-		bbdd= new ConexionBBDD();
+		
+		bbdd= new ConexionBBDD(url, user, password);
 		con= bbdd.getConexion2();
 	}
 	public void CrearBBDD(String nombre) throws SQLException {
-		EliminarBBDD(nombre);
+		//EliminarBBDD(nombre);
 		String sql="CREATE DATABASE "+nombre;
 		String sqluse="use "+nombre;
 		

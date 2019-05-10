@@ -35,7 +35,7 @@ public class ListaJugadores extends JFrame {
 	public DetalleJugadorPanel dj= new DetalleJugadorPanel();
 	
 	public ListaJugadores(DaoManager manager) throws ClassNotFoundException, SQLException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
