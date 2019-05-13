@@ -8,9 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Dao.DaoEquipo;
+import Dao.DaoJugador;
 import Dao.DaoManager;
 import Modelos.Equipo;
 import Modelos.Jugadores;
+import mySQL.MysqlEquipo;
+import mySQL.MysqlJugadores;
 import mySQL.MysqlManager;
 
 import javax.swing.JButton;
@@ -19,12 +23,16 @@ import javax.swing.JToolBar;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
 
 public class ListaJugadores extends JFrame {
 
 	private JPanel contentPane;
 	private DaoManager manager;
-	private JugadoresTableModel modelo;
+	private DaoJugador daoj= null;
+	private DaoEquipo daoq= null;
+	private TableModel modelo;
 	private JTable tabla;
 	private JButton btnEditar;
 	private JToolBar toolBar;
@@ -33,8 +41,13 @@ public class ListaJugadores extends JFrame {
 	private JButton btnGuardar;
 	private JButton btnCancelar;
 	public DetalleJugadorPanel dj= new DetalleJugadorPanel();
+	private JPanel panel;
+	private JScrollPane scrollPane;
 	
-	public ListaJugadores(DaoManager manager) throws ClassNotFoundException, SQLException {
+	public ListaJugadores() throws ClassNotFoundException, SQLException {
+		DaoManager manager = new MysqlManager();
+		daoj= new MysqlJugadores();
+		daoq= new MysqlEquipo();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 450);
 		contentPane = new JPanel();
@@ -70,15 +83,20 @@ public class ListaJugadores extends JFrame {
 		btnCancelar.addActionListener(new BtnCancelarActionListener());
 		btnCancelar.setEnabled(false);
 		toolBar.add(btnCancelar);
-		
-		tabla = new JTable();
-		getContentPane().add(tabla, BorderLayout.WEST);
-		
-		dj.setCombo(new ComboboxEquipo(manager.getEquipo()));
 		this.manager= manager;
 		//con esto se crea la tabla
-		this.modelo=new JugadoresTableModel(manager.getJugador());
-		this.modelo.updateModel();
+		this.modelo=new TableModel(manager.getJugador().BuscarTodosRSUL());
+		
+		
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane);
+		
+		tabla = new JTable();
+		scrollPane.setViewportView(tabla);
 		tabla.setModel(modelo);
 		
 		
@@ -87,8 +105,9 @@ public class ListaJugadores extends JFrame {
 			btnEditar.setEnabled(seleccionvalida);;
 			btnBorrar.setEnabled(seleccionvalida);
 		});
+		panel.add(dj);
 		
-		getContentPane().add(dj, BorderLayout.CENTER);
+		dj.setCombo(new ComboboxEquipo(manager.getEquipo()));
 		dj.setLayout(new BorderLayout(0, 0));
 					
 				
@@ -138,7 +157,7 @@ public class ListaJugadores extends JFrame {
 		try {
 			Jugadores jugador= getJugadorSeleccionado();
 			manager.getJugador().eliminar(jugador.getId());
-			modelo.updateModel();
+		
 			modelo.fireTableDataChanged();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -171,7 +190,7 @@ public class ListaJugadores extends JFrame {
 			tabla.clearSelection();
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
-			modelo.updateModel();
+			
 			modelo.fireTableDataChanged();
 			
 		}
@@ -188,7 +207,7 @@ public class ListaJugadores extends JFrame {
 			public void run() {
 				try {
 					
-					new ListaJugadores(manager).setVisible(true);
+					new ListaJugadores().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -18,6 +18,7 @@ public class MysqlJugadores implements DaoJugador{
 	private String eliminar= "delete from jugador where idJugador=?;";
 	private String buscarTodos="select * from jugador";
 	private String buscarEquipo="select * from jugador where idJugador=?";
+	private String buscarEquipo2="select * from jugador where idEquipo=?";
 	Connection con;
 	ConexionBBDD bbdd= new ConexionBBDD();
 	public MysqlJugadores() throws ClassNotFoundException, SQLException {
@@ -113,6 +114,27 @@ private Jugadores encontrado(ResultSet rset) throws SQLException {
 			// TODO: handle exception
 		}
 		return equi;
+	}
+	@Override
+	public ResultSet BuscarTodosRSUL() throws SQLException {
+		Jugadores equi=null;
+		PreparedStatement ps= null;
+		ResultSet rset= null;
+		ps= con.prepareStatement(buscarTodos);
+		rset= ps.executeQuery();
+			
+		return rset;
+	}
+	@Override
+	public ResultSet buscarRset(Integer id) throws SQLException {
+		PreparedStatement ps=null;
+		ResultSet rset= null;
+		Jugadores equi=null;
+		
+		ps= con.prepareStatement(buscarEquipo2);
+		ps.setInt(1, id);
+		rset= ps.executeQuery();
+		return rset;
 	}
 
 }

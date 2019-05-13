@@ -9,6 +9,7 @@ import java.util.List;
 
 import Conexion.ConexionBBDD;
 import Dao.DaoLiga;
+import Modelos.Equipo;
 import Modelos.Jugadores;
 import Modelos.Liga;
 
@@ -113,6 +114,27 @@ private Liga encontrado(ResultSet rset) throws SQLException {
 			// TODO: handle exception
 		}
 		return jugado;
+	}
+	@Override
+	public ResultSet BuscarTodosRSUL() throws SQLException {
+		
+		Jugadores equi=null;
+		PreparedStatement ps= null;
+		ResultSet rset= null;
+		ps= con.prepareStatement(buscarTodos);
+		rset= ps.executeQuery();
+			
+		return rset;
+	}
+	@Override
+	public ResultSet buscarRset(Integer id) throws SQLException {
+		PreparedStatement ps=null;
+		ResultSet rset= null;
+		Jugadores equi=null;
+		ps= con.prepareStatement(buscarEquipo);
+		ps.setInt(1, id);
+		rset= ps.executeQuery();
+		return rset;
 	}
 
 

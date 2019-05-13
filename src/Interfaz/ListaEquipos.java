@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Dao.DaoEquipo;
+import Dao.DaoJugador;
 import Dao.DaoManager;
 import Modelos.Equipo;
 import Modelos.Jugadores;
@@ -18,22 +20,36 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
 
 public class ListaEquipos extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tabla;
 	private DaoManager  manager;
-	private EquiposTableModel equipostablemodel;
+	private TableModel equipostablemodel;
+	public DetalleEquipoPanel dep = new DetalleEquipoPanel();
+
+	//añadido
+	private DaoEquipo daoe= null;
+	private DaoJugador daoj= null;
 	private JButton btnEditar;
 	private JToolBar toolBar;
 	private JButton btnAñadir;
 	private JButton btnBorrar;
 	private JButton btnGuardar;
 	private JButton btnCancelar;
-	public DetalleEquipoPanel dep = new DetalleEquipoPanel();
 	
-	public ListaEquipos(DaoManager manager) throws ClassNotFoundException, SQLException {
+	private JPanel panel;
+	private JScrollPane scrollPane;
+	
+	public ListaEquipos() throws ClassNotFoundException, SQLException {
+		//cambiado
+		this.manager= new MysqlManager();
+		daoe= manager.getEquipo();
+		daoj= manager.getJugador();
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -68,23 +84,30 @@ public class ListaEquipos extends JFrame {
 		 btnCancelar.addActionListener(new BtnCancelarActionListener());
 		toolBar.add(btnCancelar);
 		
+		this.equipostablemodel= new TableModel(daoe.BuscarTodosRSUL());
+		//modelo jugador= new modelojugador(jugador.getrest(0));
+		
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane);
+		
 		tabla = new JTable();
-		contentPane.add(tabla, BorderLayout.WEST);
-		
-		dep.setCombo(new ComboboxLiga(manager.getliga()));
-		this.manager=manager;
-		this.equipostablemodel= new EquiposTableModel(manager.getEquipo());
-		this.equipostablemodel.ActualizarModelo();
-		tabla.setModel(equipostablemodel);
-		
-		this.tabla.getSelectionModel().addListSelectionListener(e ->{
-			boolean seleccionvalida= (tabla.getSelectedRow()!=-1);
-			btnEditar.setEnabled(seleccionvalida);;
-			btnBorrar.setEnabled(seleccionvalida);
-		});
-		
-		getContentPane().add(dep, BorderLayout.CENTER);
-		dep.setLayout(new BorderLayout(0, 0));
+		scrollPane.setViewportView(tabla);
+		//	this.equipostablemodel.ActualizarModelo();
+			tabla.setModel(equipostablemodel);
+			
+			this.tabla.getSelectionModel().addListSelectionListener(e ->{
+				boolean seleccionvalida= (tabla.getSelectedRow()!=-1);
+				btnEditar.setEnabled(seleccionvalida);;
+				btnBorrar.setEnabled(seleccionvalida);
+			});
+			panel.add(dep);
+			
+			dep.setCombo(new ComboboxLiga(manager.getliga()));
+			dep.setLayout(new BorderLayout(0, 0));
 	}
 	
 	
@@ -95,6 +118,7 @@ public class ListaEquipos extends JFrame {
 			dep.setEditable(true);
 			btnGuardar.setEnabled(true);
 			btnCancelar.setEnabled(true);
+			
 		}
 	}
 	
@@ -133,6 +157,7 @@ public class ListaEquipos extends JFrame {
 			try {
 				Equipo equipo= getEquipoSeleccionado();
 				manager.getEquipo().eliminar(equipo.getId());
+				
 				equipostablemodel.ActualizarModelo();
 				equipostablemodel.fireTableDataChanged();
 			} catch (ClassNotFoundException | SQLException e) {
@@ -150,6 +175,8 @@ public class ListaEquipos extends JFrame {
 			try {
 				if(equipo.getId()==null) {
 						manager.getEquipo().insertar(equipo);
+						//recardar datos buscar
+						//equipostablemodel.fire
 					
 				
 			}else {
@@ -167,22 +194,36 @@ public class ListaEquipos extends JFrame {
 			tabla.clearSelection();
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
-			equipostablemodel.ActualizarModelo();
+			
+			try {
+				equipostablemodel.ActualizarModelo();
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			equipostablemodel.fireTableDataChanged();
 			
 		}
 	}
+	//tocar un equipo y mostrar jugadores 
+	/*PUBLIC SELECCIONA() {
+		Equipo e= getEquipoSeleccionado();
+		int id= e.getId()+1;
+		moj= new mod( buscar);
+		tablaj.setmodel(mod),
+	}*/
+	
 	private Equipo getEquipoSeleccionado() throws ClassNotFoundException, SQLException {
 		Integer id= (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
 		return manager.getEquipo().buscar(id);
 	}
 	public static void main(String[] args) {
-		DaoManager manager = new MysqlManager();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					
-					new ListaEquipos(manager).setVisible(true);
+					new ListaEquipos();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

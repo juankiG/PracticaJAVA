@@ -25,6 +25,7 @@ public class PanelControl extends JFrame {
 	ListaJugadores lg;
 	ListaEquipos le;
 	ListaLiga ll;
+	TodasLasTablas tt;
 
 	/**
 	 * Launch the application.
@@ -92,7 +93,7 @@ public class PanelControl extends JFrame {
 		btnEquipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					le= new ListaEquipos(manager);
+					le= new ListaEquipos();
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -106,7 +107,7 @@ public class PanelControl extends JFrame {
 		btnLigas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ll= new ListaLiga(manager);
+					ll= new ListaLiga();
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -122,7 +123,7 @@ public class PanelControl extends JFrame {
 		btnJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					lg= new ListaJugadores(manager);
+					lg= new ListaJugadores();
 					lg.setVisible(true);
 				} catch (ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
@@ -131,6 +132,21 @@ public class PanelControl extends JFrame {
 			}
 		});
 		panel.add(btnJugadores);
+		
+		JButton btnTablas = new JButton("Tablas");
+		btnTablas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					tt=new TodasLasTablas();
+					tt.setVisible(true);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		contentPane.add(btnTablas);
 		
 		
 		

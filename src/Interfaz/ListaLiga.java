@@ -20,6 +20,8 @@ import mySQL.MysqlManager;
 
 import javax.swing.JToolBar;
 import javax.swing.JButton;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
 
 public class ListaLiga extends JFrame {
 
@@ -33,9 +35,12 @@ public class ListaLiga extends JFrame {
 	private JTable tabla;
 	DaoManager manager;
 	DetalleLigaPanel dlp= new DetalleLigaPanel();
-	LigaTableModel ltm;
+	TableModel ltm;
+	private JPanel panel;
+	private JScrollPane scrollPane;
 	
-		public ListaLiga(DaoManager manager) throws ClassNotFoundException, SQLException {
+		public ListaLiga() throws ClassNotFoundException, SQLException {
+			 this.manager= new MysqlManager();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 655, 336);
 		contentPane = new JPanel();
@@ -69,13 +74,18 @@ public class ListaLiga extends JFrame {
 		 btnCancelar.setEnabled(false);
 		 btnCancelar.addActionListener(new BtnCancelarActionListener());
 		toolBar.add(btnCancelar);
-		getContentPane().add(dlp, BorderLayout.CENTER);
-		dlp.setLayout(new BorderLayout(0, 0));
-		tabla = new JTable();
-		contentPane.add(tabla, BorderLayout.WEST);
-		this.manager= manager;
-		this.ltm= new LigaTableModel(manager.getliga());
+		
+		this.ltm= new TableModel(manager.getliga().BuscarTodosRSUL());
 		this.ltm.ActualizarModelo();
+		
+		panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel.add(scrollPane);
+		tabla = new JTable();
+		scrollPane.setViewportView(tabla);
 		tabla.setModel(ltm);
 		
 		this.tabla.getSelectionModel().addListSelectionListener(e ->{
@@ -83,6 +93,8 @@ public class ListaLiga extends JFrame {
 			btnEditar.setEnabled(seleccionvalida);;
 			btnBorrar.setEnabled(seleccionvalida);
 		});
+		panel.add(dlp);
+		dlp.setLayout(new BorderLayout(0, 0));
 	}
 		private class BtnAñadirActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -161,7 +173,7 @@ public class ListaLiga extends JFrame {
 			tabla.clearSelection();
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
-			ltm.ActualizarModelo();
+			//ltm.ActualizarModelo();
 			ltm.fireTableDataChanged();
 			
 		}
@@ -176,7 +188,7 @@ public class ListaLiga extends JFrame {
 				public void run() {
 					try {
 						
-						new ListaLiga(manager).setVisible(true);
+						new ListaLiga().setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

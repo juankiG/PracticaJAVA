@@ -15,7 +15,8 @@ public class test {
 		Jugadores j= new Jugadores("ian", 9, 10);
 		Liga liga= new Liga("española");
 		MysqlManager mg= new MysqlManager();
-		mg.getBBDD().EliminarBBDD("bd_equipos");
+		mg.getEquipo().buscarRset(0);
+		
 		
 
 		
