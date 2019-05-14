@@ -21,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -153,16 +155,21 @@ public class ListaJugadores extends JFrame {
 	}
 	private class BtnBorrarActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-		
-		try {
-			Jugadores jugador= getJugadorSeleccionado();
-			manager.getJugador().eliminar(jugador.getId());
-		
-			modelo.fireTableDataChanged();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro?","alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+		System.out.println(res);
+		if(res==0) {
+			try {
+				Jugadores jugador= getJugadorSeleccionado();
+				manager.getJugador().eliminar(jugador.getId());
+				modelo= new TableModel(manager.getJugador().BuscarTodosRSUL());
+				tabla.setModel(modelo);
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 			
 		}
 	}
@@ -173,14 +180,18 @@ public class ListaJugadores extends JFrame {
 			try {
 				if(jugador.getId()==null) {
 						manager.getJugador().insertar(jugador);
+						
 					
 				
 			}else {
-				
+				int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres modificar?"+" "+jugador.getNombre(),"alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+				if(res==0) {
 					manager.getJugador().modificar(jugador);
 				
 				}
-				}catch (Exception e) {
+				}
+			}
+				catch (Exception e) {
 					// TODO: handle exception
 				}
 			
@@ -191,7 +202,13 @@ public class ListaJugadores extends JFrame {
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
 			
-			modelo.fireTableDataChanged();
+			try {
+				modelo= new TableModel(manager.getJugador().BuscarTodosRSUL());
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tabla.setModel(modelo);
 			
 		}
 	}

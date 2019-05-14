@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -76,7 +77,7 @@ public class ListaLiga extends JFrame {
 		toolBar.add(btnCancelar);
 		
 		this.ltm= new TableModel(manager.getliga().BuscarTodosRSUL());
-		this.ltm.ActualizarModelo();
+		
 		
 		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -138,15 +139,20 @@ public class ListaLiga extends JFrame {
 	}
 	private class BtnBorrarActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			try {
-				Liga liga= getLigaSeleccionado();
-				manager.getliga().eliminar(liga.getId());
-				ltm.ActualizarModelo();
-				ltm.fireTableDataChanged();
-			} catch (ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro?","alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+			if(res==0) {
+				try {
+					Liga liga= getLigaSeleccionado();
+					manager.getliga().eliminar(liga.getId());
+					
+					ltm= new TableModel(manager.getliga().BuscarTodosRSUL());
+					tabla.setModel(ltm);
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
 		
 			
 		}
@@ -159,10 +165,12 @@ public class ListaLiga extends JFrame {
 				if(liga.getId()==null) {
 						manager.getliga().insertar(liga);
 			}else {
-				
+				int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres modificar?"+" "+liga.getNombre(),"alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+				if(res==0) {
 					manager.getliga().modificar(liga);
 				
 				}
+			}
 				}catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -174,7 +182,14 @@ public class ListaLiga extends JFrame {
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
 			//ltm.ActualizarModelo();
-			ltm.fireTableDataChanged();
+			try {
+				ltm= new TableModel(manager.getliga().BuscarTodosRSUL());
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tabla.setModel(ltm);
+			
 			
 		}
 	}

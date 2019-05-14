@@ -33,9 +33,7 @@ public TableModel(ResultSet rset) throws SQLException  {
 /*public void ActualizarModelo() {
 	ListaEquipos=equipo.BuscarTodos();
 }*/
-public void ActualizarModelo() throws ClassNotFoundException, SQLException {
 
-}
 @Override
 	public String getColumnName(int column) {
 	String nombre= null;

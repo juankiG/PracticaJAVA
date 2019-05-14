@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -154,15 +155,18 @@ public class ListaEquipos extends JFrame {
 	}
 	private class BtnBorrarActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro?","alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+			if(res==0) {
 			try {
 				Equipo equipo= getEquipoSeleccionado();
 				manager.getEquipo().eliminar(equipo.getId());
-				
-				equipostablemodel.ActualizarModelo();
-				equipostablemodel.fireTableDataChanged();
+				equipostablemodel= new TableModel(manager.getEquipo().BuscarTodosRSUL());
+				tabla.setModel(equipostablemodel);
+			
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
 			}
 		
 			
@@ -180,10 +184,12 @@ public class ListaEquipos extends JFrame {
 					
 				
 			}else {
-				
+				int res=JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres modificar?"+" "+equipo.getNombre(),"alerta", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+				if(res==0) {
 					manager.getEquipo().modificar(equipo);
 				
 				}
+			}
 				}catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -194,14 +200,15 @@ public class ListaEquipos extends JFrame {
 			tabla.clearSelection();
 			btnGuardar.setEnabled(false);
 			btnCancelar.setEnabled(false);
-			
 			try {
-				equipostablemodel.ActualizarModelo();
+				equipostablemodel= new TableModel(manager.getEquipo().BuscarTodosRSUL());
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			equipostablemodel.fireTableDataChanged();
+			tabla.setModel(equipostablemodel);
+			
+		
 			
 		}
 	}
