@@ -29,8 +29,10 @@ public class PanelControl extends JFrame {
 
 	/**
 	 * Launch the application.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		DaoManager manager = new MysqlManager();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

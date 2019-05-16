@@ -18,7 +18,7 @@ public ConexionBBDD() throws ClassNotFoundException, SQLException {
 	//Dao para cada POJO
 	
 }
-private ConexionBBDD(String url,String bd,String user, String password) throws ClassNotFoundException, SQLException {
+public ConexionBBDD(String url,String bd,String user, String password) throws ClassNotFoundException, SQLException {
 this.url=url;
 this.user=user;
 this.bd=bd;
@@ -32,8 +32,8 @@ conexion= DriverManager.getConnection(this.url+this.bd, this.user, this.password
 //state=con.createStatement();
 System.out.println("conexion establecida");
 }
-public ConexionBBDD(String url,String user, String password) throws ClassNotFoundException, SQLException {
-this.url=url;
+public ConexionBBDD(String user, String password) throws ClassNotFoundException, SQLException {
+
 this.user=user;
 this.bd=bd;
 this.password=password;
@@ -55,7 +55,7 @@ public  Connection getConexion() throws ClassNotFoundException, SQLException {
 }
 public  Connection getConexion2() throws ClassNotFoundException, SQLException {
 	if(this.conexion==null) {
-	new ConexionBBDD(url,user,password);
+	new ConexionBBDD(user,password);
 		
 	}
 	return conexion;

@@ -111,14 +111,20 @@ public class ListaEquipos extends JFrame {
 			dep.setLayout(new BorderLayout(0, 0));
 	}
 	
-	
+	public void habilitar() {
+		btnGuardar.setEnabled(true);
+		btnCancelar.setEnabled(true);
+	}
+	public void limpiar() {
+		btnGuardar.setEnabled(false);
+		btnCancelar.setEnabled(false);
+	}
 	private class BtnAñadirActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			dep.setEquipo(null);
 			dep.cargarDatos();
 			dep.setEditable(true);
-			btnGuardar.setEnabled(true);
-			btnCancelar.setEnabled(true);
+			habilitar();
 			
 		}
 	}
@@ -131,8 +137,7 @@ public class ListaEquipos extends JFrame {
 				dep.setEquipo(equipo);
 				dep.setEditable(true);
 				dep.cargarDatos();
-				btnGuardar.setEnabled(true);
-				btnCancelar.setEnabled(true);
+				habilitar();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,8 +154,7 @@ public class ListaEquipos extends JFrame {
 			dep.setEditable(false);
 			dep.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+			limpiar();
 		}
 	}
 	private class BtnBorrarActionListener implements ActionListener {
@@ -198,8 +202,7 @@ public class ListaEquipos extends JFrame {
 			dep.setEditable(false);
 			dep.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+		limpiar();
 			try {
 				equipostablemodel= new TableModel(manager.getEquipo().BuscarTodosRSUL());
 			} catch (ClassNotFoundException | SQLException e) {

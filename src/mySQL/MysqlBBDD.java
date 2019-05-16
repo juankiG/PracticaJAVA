@@ -15,7 +15,7 @@ public class MysqlBBDD {
 	ConexionBBDD bbdd;
 	public MysqlBBDD() throws ClassNotFoundException, SQLException {
 		
-		bbdd= new ConexionBBDD(url, user, password);
+		bbdd= new ConexionBBDD();
 		con= bbdd.getConexion2();
 	}
 	public void CrearBBDD(String nombre) throws SQLException {

@@ -97,13 +97,20 @@ public class ListaLiga extends JFrame {
 		panel.add(dlp);
 		dlp.setLayout(new BorderLayout(0, 0));
 	}
+		public void habilitar() {
+			btnGuardar.setEnabled(true);
+			btnCancelar.setEnabled(true);
+		}
+		public void limpiar() {
+			btnGuardar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+		}
 		private class BtnAñadirActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			dlp.setLiga(null);
 			dlp.cargarDatos();
 			dlp.setEditable(true);
-			btnGuardar.setEnabled(true);
-			btnCancelar.setEnabled(true);
+			habilitar();
 		}
 	}
 	
@@ -133,8 +140,7 @@ public class ListaLiga extends JFrame {
 			dlp.setEditable(false);
 			dlp.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+			limpiar();
 		}
 	}
 	private class BtnBorrarActionListener implements ActionListener {
@@ -179,8 +185,7 @@ public class ListaLiga extends JFrame {
 			dlp.setEditable(false);
 			dlp.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+			limpiar();
 			//ltm.ActualizarModelo();
 			try {
 				ltm= new TableModel(manager.getliga().BuscarTodosRSUL());
@@ -197,7 +202,7 @@ public class ListaLiga extends JFrame {
 		Integer id= (Integer) tabla.getValueAt(tabla.getSelectedRow(), 0);
 		return manager.getliga().buscar(id);
 	}
-		public static void main(String[] args) {
+		public static void main(String[] args) throws ClassNotFoundException, SQLException {
 			DaoManager manager = new MysqlManager();
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {

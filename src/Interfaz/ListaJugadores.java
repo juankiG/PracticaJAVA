@@ -27,6 +27,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import java.awt.Font;
 
 public class ListaJugadores extends JFrame {
 
@@ -63,6 +66,7 @@ public class ListaJugadores extends JFrame {
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		btnAñadir = new JButton("anadir");
+		btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnAñadir.addActionListener(new BtnAñadirActionListener());
 		toolBar.add(btnAñadir);
 		
@@ -114,14 +118,20 @@ public class ListaJugadores extends JFrame {
 					
 				
 	}
-	
+	public void habilitar() {
+		btnGuardar.setEnabled(true);
+		btnCancelar.setEnabled(true);
+	}
+	public void limpiar() {
+		btnGuardar.setEnabled(false);
+		btnCancelar.setEnabled(false);
+	}
 	private class BtnAñadirActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			dj.setJugador(null);
 			dj.cargarDatos();
 			dj.setEditable(true);
-			btnGuardar.setEnabled(true);
-			btnCancelar.setEnabled(true);
+			habilitar();
 		}
 	}
 	
@@ -132,8 +142,7 @@ public class ListaJugadores extends JFrame {
 				dj.setJugador(jugador);
 				dj.setEditable(true);
 				dj.cargarDatos();
-				btnGuardar.setEnabled(true);
-				btnCancelar.setEnabled(true);
+				habilitar();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,8 +158,8 @@ public class ListaJugadores extends JFrame {
 			dj.setEditable(false);
 			dj.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+			limpiar();
+			
 		}
 	}
 	private class BtnBorrarActionListener implements ActionListener {
@@ -180,7 +189,7 @@ public class ListaJugadores extends JFrame {
 			try {
 				if(jugador.getId()==null) {
 						manager.getJugador().insertar(jugador);
-						
+						limpiar();
 					
 				
 			}else {
@@ -199,8 +208,7 @@ public class ListaJugadores extends JFrame {
 			dj.setEditable(false);
 			dj.cargarDatos();
 			tabla.clearSelection();
-			btnGuardar.setEnabled(false);
-			btnCancelar.setEnabled(false);
+			limpiar();
 			
 			try {
 				modelo= new TableModel(manager.getJugador().BuscarTodosRSUL());
@@ -218,7 +226,7 @@ public class ListaJugadores extends JFrame {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		DaoManager manager = new MysqlManager();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
