@@ -35,7 +35,6 @@ System.out.println("conexion establecida");
 public ConexionBBDD(String user, String password) throws ClassNotFoundException, SQLException {
 
 this.user=user;
-this.bd=bd;
 this.password=password;
 Class.forName("com.mysql.jdbc.Driver");
 //java.sql

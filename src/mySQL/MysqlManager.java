@@ -15,7 +15,7 @@ MysqlEquipo equipo;
 ConexionBBDD conexion;
 //sirve para el login, obliga a meter una contraseña
  public MysqlManager(String user, String password) throws ClassNotFoundException, SQLException {
-	 conexion= new ConexionBBDD( user, password);
+	 conexion=new ConexionBBDD( user, password);
 	 
 	con=  conexion.getConexion2();
 }
